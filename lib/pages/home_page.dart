@@ -49,25 +49,32 @@ class _HomePageState extends State<HomePage> {
             value = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-            ),
-            label: 'Tasks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.task_alt_sharp,
-            ),
-            label: 'Done',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.archive),
-            label: 'Archived',
-          ),
+        items: [
+          customBottomNavigationBarItem(Icons.list, 'Tasks'),
+          customBottomNavigationBarItem(Icons.task_alt_sharp, 'Done'),
+          customBottomNavigationBarItem(Icons.archive, 'Archived'),
+          // const BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.task_alt_sharp,
+          //   ),
+          //   label: 'Done',
+          // ),
+          // const BottomNavigationBarItem(
+          //   icon: Icon(Icons.archive),
+          //   label: 'Archived',
+          // ),
         ],
       ),
+    );
+  }
+
+  BottomNavigationBarItem customBottomNavigationBarItem(
+      IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Icon(
+        icon,
+      ),
+      label: label,
     );
   }
 }
