@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           // try {
           //   var name = await getName();
-
           //   print(name);
           //   print('osama');
           //   //throw ('some error ????');
@@ -50,9 +49,9 @@ class _HomePageState extends State<HomePage> {
             print(value);
             print('osama');
             throw ('some error ????');
-          
           }).catchError((e) {
             print('error: ${e.toString()}');
+           
           });
         },
         child: const Icon(
@@ -86,7 +85,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  BottomNavigationBarItem customBottomNavigationBarItem(
+  
+ BottomNavigationBarItem customBottomNavigationBarItem(
       IconData icon, String label) {
     return BottomNavigationBarItem(
       icon: Icon(
@@ -95,9 +95,10 @@ class _HomePageState extends State<HomePage> {
       label: label,
     );
   }
-}
 
-// Instance of 'Future<String>'
 Future<String> getName() async {
   return 'Ahmed Ali';
 }
+ 
+}
+
