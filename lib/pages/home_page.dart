@@ -36,7 +36,25 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
         backgroundColor: appbarColor,
-        onPressed: () {},
+        onPressed: () {
+          // try {
+          //   var name = await getName();
+
+          //   print(name);
+          //   print('osama');
+          //   //throw ('some error ????');
+          // } catch (e) {
+          //   print('error : ${e.toString()}');
+          // }
+          getName().then((value) {
+            print(value);
+            print('osama');
+            throw ('some error ????');
+          
+          }).catchError((e) {
+            print('error: ${e.toString()}');
+          });
+        },
         child: const Icon(
           Icons.add,
         ),
@@ -77,4 +95,9 @@ class _HomePageState extends State<HomePage> {
       label: label,
     );
   }
+}
+
+// Instance of 'Future<String>'
+Future<String> getName() async {
+  return 'Ahmed Ali';
 }
