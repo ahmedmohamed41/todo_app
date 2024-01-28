@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/constaints.dart';
+import 'package:todo_app/shared/components/constaints.dart';
 
-import 'package:todo_app/shared/custom_task_item.dart';
+import 'package:todo_app/widgets/custom_task_item.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});

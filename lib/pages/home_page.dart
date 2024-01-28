@@ -2,11 +2,11 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:todo_app/constaints.dart';
+import 'package:todo_app/shared/components/constaints.dart';
 import 'package:todo_app/modules/archived_task/archived_task_screen.dart';
 import 'package:todo_app/modules/done_task/done_task_screen.dart';
 import 'package:todo_app/modules/new_task/new_task_screen.dart';
-import 'package:todo_app/shared/custom_text_from_filed.dart';
+import 'package:todo_app/widgets/custom_text_from_filed.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

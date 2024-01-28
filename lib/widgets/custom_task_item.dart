@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/constaints.dart';
+import 'package:todo_app/shared/components/constaints.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({
