@@ -12,15 +12,17 @@ class AppCubit extends Cubit<AppStates> {
 
 // create object from AppCubit
   static AppCubit get(context) => BlocProvider.of(context);
-  List<Map> tasks = [];
+  List<Map> newTasks = [];
+  List<Map> doneTasks = [];
+  List<Map> archivedTasks = [];
   late Database database;
   int currentIndex = 0;
   bool isShowBottomSheet = false;
   IconData fabIcon = Icons.edit;
-  List<Widget> listScreen = const [
+  List<Widget> listScreen = [
     NewTaskScreen(),
-    DoneTaskScreen(),
-    ArchivedTaskScreen(),
+    const DoneTaskScreen(),
+    const ArchivedTaskScreen(),
   ];
   List<String> listTitle = const [
     'New Tasks',
@@ -48,11 +50,7 @@ class AppCubit extends Cubit<AppStates> {
         });
       },
       onOpen: (database) {
-        getDatabase(database).then((value) {
-          tasks = value;
-          print(tasks);
-          emit(AppGetDataState());
-        });
+        getDatabase(database);
         print('opened database');
       },
     ).then((value) {
@@ -75,11 +73,7 @@ class AppCubit extends Cubit<AppStates> {
         print('$value inserted data');
 
         emit(AppInsertDataState());
-        getDatabase(database).then((value) {
-          tasks = value;
-          print(tasks);
-          emit(AppGetDataState());
-        });
+        getDatabase(database);
       }).catchError((e) {
         print('Error when inserted data ${e.toString()}');
       });
@@ -87,9 +81,43 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  Future<List<Map>> getDatabase(database) async {
+  void updataData({
+    required String status,
+    required int id,
+  }) async {
+    database.rawUpdate(
+        'UPDATE tasks SET status = ? WHERE id = ?', [status, id]).then((value) {
+      getDatabase(database);
+      emit(AppUpdateDataState());
+    });
+  }
+
+  void getDatabase(database) {
+    newTasks = [];
+    doneTasks = [];
+    archivedTasks = [];
     emit(AppGetDataLoadingState());
-    return await database.rawQuery('SELECT * FROM tasks');
+    database.rawQuery('SELECT * FROM tasks').then((value) {
+      value.forEach((element) {
+        if (element['status'] == 'new')
+          newTasks.add(element);
+        else if (element['status'] == 'done')
+          doneTasks.add(element);
+        else
+          archivedTasks.add(element);
+      });
+      emit(AppGetDataState());
+    });
+    ;
+  }
+
+  void deleteData({
+    required int id,
+  }) {
+    database.rawDelete('DELETE FROM tasks WHERE id = ?', [id]).then((value) {
+      getDatabase(database);
+      emit(AppDeleteDataState());
+    });
   }
 
   void changeBottomSheetState(IconData icon, bool isShowBottom) {
