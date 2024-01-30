@@ -2,11 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/shared/components/constaints.dart';
-import 'package:todo_app/modules/archived_task/archived_task_screen.dart';
-import 'package:todo_app/modules/done_task/done_task_screen.dart';
-import 'package:todo_app/modules/new_task/new_task_screen.dart';
 import 'package:todo_app/shared/cubit/cubit.dart';
 import 'package:todo_app/shared/cubit/state.dart';
 import 'package:todo_app/widgets/custom_text_from_filed.dart';
@@ -36,14 +32,14 @@ class HomeLayout extends StatelessWidget {
           return Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
-              backgroundColor: appbarColor,
+              backgroundColor: kAppbarColor,
               title: Text(
                 // listTitle[currentIndex],
                 cubit.listTitle[cubit.currentIndex],
               ),
             ),
             body: ConditionalBuilder(
-              condition: true,
+              condition: state is! AppGetDataLoadingState,
               builder: (context) =>
                   cubit.listScreen[AppCubit.get(context).currentIndex],
               fallback: (context) =>
@@ -51,7 +47,7 @@ class HomeLayout extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               shape: const CircleBorder(),
-              backgroundColor: appbarColor,
+              backgroundColor: kAppbarColor,
               onPressed: () {
                 if (cubit.isShowBottomSheet) {
                   if (formKey.currentState!.validate()) {
@@ -60,25 +56,6 @@ class HomeLayout extends StatelessWidget {
                       time: timeController.text,
                       date: dateController.text,
                     );
-                    //       .then((value) {
-                    //     Navigator.pop(context);
-                    //     isShowBottomSheet = false;
-                    //     fabIcon = Icons.edit;
-                    //   });
-                    // insertDatabase(
-                    //   title: titleController.text,
-                    //   time: timeController.text,
-                    //   date: dateController.text,).
-                    // then((value) {
-                    //   Navigator.pop(context);
-                    // setState(() {
-                    //   isShowBottomSheet = false;
-
-                    //   setState(() {
-                    //     fabIcon = Icons.edit;
-                    //   });
-                    // });
-                    // });
                   }
                 } else {
                   scaffoldKey.currentState!

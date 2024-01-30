@@ -15,6 +15,8 @@ class AppCubit extends Cubit<AppStates> {
   List<Map> tasks = [];
   late Database database;
   int currentIndex = 0;
+  bool isShowBottomSheet = false;
+  IconData fabIcon = Icons.edit;
   List<Widget> listScreen = const [
     NewTaskScreen(),
     DoneTaskScreen(),
@@ -59,20 +61,19 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-   insertDatabase({
-    
+  insertDatabase({
     @required String? title,
     @required String? time,
     @required String? date,
   }) async {
-     await database.transaction((txn) {
+    await database.transaction((txn) {
       txn
           .rawInsert(
         'INSERT INTO tasks(title, date, time, status) VALUES("$title", "$date", "$time", "new")',
       )
           .then((value) {
         print('$value inserted data');
-        
+
         emit(AppInsertDataState());
         getDatabase(database).then((value) {
           tasks = value;
@@ -87,11 +88,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Future<List<Map>> getDatabase(database) async {
+    emit(AppGetDataLoadingState());
     return await database.rawQuery('SELECT * FROM tasks');
   }
-
-  bool isShowBottomSheet = false;
-  IconData fabIcon = Icons.edit;
 
   void changeBottomSheetState(IconData icon, bool isShowBottom) {
     isShowBottomSheet = isShowBottom;
